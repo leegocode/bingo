@@ -1,12 +1,70 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      {{ displayNumber }}
     </div>
-    <router-view/>
+    <button @click="rollthedice">{{ rollOrStop }}</button>
+    <Ball v-for="bingo in bingoNumber" :bingo="bingo" :key="bingo.index"/>
   </div>
 </template>
+
+<script lang="ts">
+import {Component, Vue, Watch} from 'vue-property-decorator';
+import Ball from './components/Ball.vue';
+
+@Component({
+  components: {
+    Ball,
+  },
+})
+export default class APP extends Vue {
+  msg = 0;
+  displayNumber = 0;
+  timer: number | null = 0;
+  bingoNumber: number[] = []
+
+
+  get rollOrStop() {
+    if (this.timer) {
+      return 'stop'
+    } else {
+      return '!!!!'
+    }
+  }
+
+  includeBingo(a): boolean {
+   return this.bingoNumber.includes(a)
+  }
+
+  getRandom(): void {
+    this.msg = Math.floor(1 + Math.random() * 80);
+  }
+
+
+  rollthedice(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+      if (!this.includeBingo(this.displayNumber)){
+        this.bingoNumber.push(this.displayNumber)
+      }
+      this.timer = null;
+    } else {
+      this.timer = setInterval(this.getRandom, 100)
+    }
+  }
+
+  stopdice(): void {
+    const rolldice = setInterval(this.getRandom, 100);
+    clearInterval(rolldice);
+  }
+
+  @Watch('msg')
+  onPropertyChanged(value: number) {
+    this.displayNumber = value;
+  }
+
+}
+</script>
 
 <style lang="scss">
 #app {
