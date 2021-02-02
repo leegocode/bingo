@@ -32,7 +32,7 @@ export default class APP extends Vue {
     }
   }
 
-  includeBingo(a): boolean {
+  includeBingo(a: any): boolean {
    return this.bingoNumber.includes(a)
   }
 
