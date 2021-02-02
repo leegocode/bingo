@@ -1,11 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-      {{ displayNumber }}
-    </div>
+    <div class="number">
+      <div class="circle">
+        {{ displayNumber }}
+      </div>
     <button @click="rollthedice">{{ rollOrStop }}</button>
-    <Ball v-for="bingo in bingoNumber" :bingo="bingo" :key="bingo.index"/>
-  </div>
+    </div>
+    <div class="nav">
+      <Ball v-for="bingo in bingoNumber" :bingo="bingo" :key="bingo.index"/>
+    </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -33,7 +37,7 @@ export default class APP extends Vue {
   }
 
   includeBingo(a: any): boolean {
-   return this.bingoNumber.includes(a)
+    return this.bingoNumber.includes(a)
   }
 
   getRandom(): void {
@@ -67,12 +71,26 @@ export default class APP extends Vue {
 </script>
 
 <style lang="scss">
+body {
+  background-color: black;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  // text-align: center;
+  color: white;
+  display:flex;
+  .circle{
+   width: 700px;
+   height: 700px;
+   line-height: 700px;
+   border-radius: 50%;
+   font-size: 500px;
+   color: black;
+   text-align: center;
+   background-color: orange;
+  }
 }
 
 #nav {
