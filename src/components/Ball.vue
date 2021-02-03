@@ -20,11 +20,11 @@ export default class Ball extends Vue {
   turnRed = false;
 
   get fristThree() {
-    if ( this.$vnode.key < 3 | this.$vnode.key === 0 ) {
-      return true;
-    }else{
-      return false;
+    const key = this.$vnode.key
+    if(key){
+      return key < 3 || key === 0;
     }
+  return false
   }
 }
 
