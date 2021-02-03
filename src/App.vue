@@ -4,12 +4,12 @@
       <div class="circle">
         {{ displayNumber }}
       </div>
-    <button @click="rollthedice">{{ rollOrStop }}</button>
+      <button @click="rollthedice">{{ rollOrStop }}</button>
     </div>
     <div class="nav">
       <Ball v-for="bingo in bingoNumber" :bingo="bingo" :key="bingo.index"/>
     </div>
-</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -48,7 +48,7 @@ export default class APP extends Vue {
   rollthedice(): void {
     if (this.timer) {
       clearInterval(this.timer);
-      if (!this.includeBingo(this.displayNumber)){
+      if (!this.includeBingo(this.displayNumber)) {
         this.bingoNumber.push(this.displayNumber)
       }
       this.timer = null;
@@ -74,35 +74,60 @@ export default class APP extends Vue {
 body {
   background-color: black;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
-  color: white;
-  display:flex;
-  .circle{
-   width: 700px;
-   height: 700px;
-   line-height: 700px;
-   border-radius: 50%;
-   font-size: 500px;
-   color: black;
-   text-align: center;
-   background-color: orange;
+  display: flex;
+  .number{
+   margin:120px;
+    button {
+      display: block;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 40px auto;
+      background: #cb4f4e;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: center;
+      transition: background 250ms ease-in-out,
+      transform 150ms ease;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    button:hover,
+    button:focus {
+      background: #cb2426;
+    }
+
+    button:focus {
+      outline: 1px solid #fff;
+      outline-offset: -4px;
+    }
+
+    button:active {
+      transform: scale(0.6);
+    }
+  }
+  .circle {
+    width: 700px;
+    height: 700px;
+    line-height: 700px;
+    border-radius: 50%;
+    font-size: 500px;
+    color: black;
+    text-align: center;
+    background-color: orange;
   }
 }
 
-#nav {
+.nav {
   padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  color: white;
+  width:40%;
+  height: 100%;
 }
 </style>

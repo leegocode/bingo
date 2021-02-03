@@ -1,7 +1,10 @@
 <template>
-  <div class="hello">
-    <h1>{{ bingo }}</h1>
+  <div class="flex-gap">
+    <div class="hello">
+      {{ bingo }}
+    </div>
   </div>
+
 
 </template>
 
@@ -16,18 +19,17 @@ export default class Ball extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.hello{
+  font-size: 60px;
+  color: orange;
+  height: 50px;
+  width: 80px;
+  margin: 30px;
+  align-items: center;
+  justify-content: center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.flex-gap {
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 </style>
