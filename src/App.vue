@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <div class="number">
+      <div id="left">left: {{ leftNumber }}</div>
       <div class="circle">
         {{ displayNumber }}
       </div>
-      <button @click="rollthedice">{{ rollOrStop }}</button>
+      <button @click="rollthedice" >{{ rollOrStop }}</button>
     </div>
     <div class="nav">
-      <Ball v-for="bingo in bingoNumber" :bingo="bingo" :key="bingo.index"/>
+      <Ball v-for="(bingo, index) in bingoNumber" :bingo="bingo" :key="index"/>
     </div>
   </div>
 </template>
@@ -26,41 +27,50 @@ export default class APP extends Vue {
   displayNumber = 0;
   timer: number | null = 0;
   bingoNumber: number[] = []
+  anArrayOfUniqueNumbers: any[] = [];
+  leftNumber = 80;
 
 
   get rollOrStop() {
     if (this.timer) {
       return 'stop'
     } else {
-      return '!!!!'
+      return 'GO GO'
     }
   }
 
-  includeBingo(a: any): boolean {
-    return this.bingoNumber.includes(a)
-  }
-
   getRandom(): void {
-    this.msg = Math.floor(1 + Math.random() * 80);
+    const randomIndex = Math.floor(Math.random() * this.leftNumber );
+    this.msg = this.anArrayOfUniqueNumbers[randomIndex]
+    // this.anArrayOfUniqueNumbers.
   }
 
+  numberGenerator(arr: any): void{
+    if(arr.length >= 80)return;
+    const NewNumber = Math.floor(Math.random()*80+1);
+    if (arr.indexOf(NewNumber) < 0) {
+      arr.push(NewNumber);
+    }
+    this.numberGenerator(arr)
+  }
+
+  mounted(){
+    this.numberGenerator(this.anArrayOfUniqueNumbers); //decide index of array;
+  }
 
   rollthedice(): void {
     if (this.timer) {
       clearInterval(this.timer);
-      if (!this.includeBingo(this.displayNumber)) {
-        this.bingoNumber.push(this.displayNumber)
-      }
+      const theIndex = this.anArrayOfUniqueNumbers.indexOf(this.displayNumber);
+      this.bingoNumber.unshift(this.displayNumber)
+      this.anArrayOfUniqueNumbers.splice(theIndex,1)
+      this.leftNumber --
       this.timer = null;
     } else {
       this.timer = setInterval(this.getRandom, 100)
     }
   }
 
-  stopdice(): void {
-    const rolldice = setInterval(this.getRandom, 100);
-    clearInterval(rolldice);
-  }
 
   @Watch('msg')
   onPropertyChanged(value: number) {
@@ -80,8 +90,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
+
+  #left{
+    color: white;
+    font-size: 5rem;
+    font-weight: bold;
+  }
   .number{
-   margin:120px;
+   margin:50px;
     button {
       display: block;
       border: none;
@@ -111,6 +127,7 @@ body {
     button:active {
       transform: scale(0.6);
     }
+
   }
   .circle {
     width: 700px;
@@ -127,7 +144,7 @@ body {
 .nav {
   padding: 30px;
   color: white;
-  width:40%;
+  width:60%;
   height: 100%;
 }
 </style>

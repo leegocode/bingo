@@ -1,7 +1,10 @@
 <template>
   <div class="flex-gap">
-    <div class="hello">
+    <div class="hello" :class="fristThree? 'firstthree': '' " >
       {{ bingo }}
+    </div>
+    <div>
+<!--      {{ this.$vnode.key }}-->
     </div>
   </div>
 
@@ -9,27 +12,46 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {Component, Prop, Vue} from 'vue-property-decorator';
 
 @Component
 export default class Ball extends Vue {
   @Prop() bingo!: number;
+  turnRed = false;
+
+  get fristThree() {
+    if ( this.$vnode.key < 3 | this.$vnode.key === 0 ) {
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.hello{
+.hello {
   font-size: 60px;
-  color: orange;
+  color: white;
   height: 50px;
   width: 80px;
-  margin: 30px;
+  margin-left: 45px;
+  margin-top: 45px;
   align-items: center;
-  justify-content: center;
+  letter-spacing: -1px;
+  justify-content: space-around;
 }
+
 .flex-gap {
   display: inline-flex;
   flex-wrap: wrap;
+}
+
+.firstthree {
+  color: orange;
+  font-size: 85px;
+  letter-spacing: -5px;
 }
 </style>
