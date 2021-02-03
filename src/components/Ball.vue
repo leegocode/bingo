@@ -21,7 +21,7 @@ export default class Ball extends Vue {
 
   get fristThree() {
     const key = this.$vnode.key
-    if(key){
+    if(key ===0 || key){
       return key < 3 || key === 0;
     }
   return false
